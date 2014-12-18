@@ -4,7 +4,9 @@ shinyUI(
     headerPanel("Height Prediction"),
     sidebarPanel(
       sliderInput('height', 'Father Height (inches)',value = 60, min = 50, max = 90, step = 1,),
-      sliderInput('height2', 'Mother Height (inches)',value = 60, min = 50, max = 90, step = 1,)
+      sliderInput('height2', 'Mother Height (inches)',value = 60, min = 50, max = 90, step = 1,),
+      p("Documentation:",a("Child Height Prediction Model",
+                          href="http://htmlpreview.github.io/?https://github.com/ferddavid/CreatingDataProductsProject/blob/master/FDAppDocumentation.html"))
     ),
     mainPanel(
       h3('Predicted Height'),

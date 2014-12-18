@@ -13,13 +13,42 @@ The app first uses the father's height and mother's height to calculate the "par
 Code is below
 
 ui.R code
-``{r}
-
+```{r, results="hide", eval=FALSE}
+shinyUI(
+  pageWithSidebar(
+    # Application title
+    headerPanel("Height Prediction"),
+    sidebarPanel(
+      sliderInput('height', 'Father Height (inches)',value = 60, min = 50, max = 90, step = 1,),
+      sliderInput('height2', 'Mother Height (inches)',value = 60, min = 50, max = 90, step = 1,),
+      p("Documentation:",a("Child Height Prediction Model",
+                          href="http://htmlpreview.github.io/?https://github.com/ferddavid/CreatingDataProductsProject/blob/master/FDAppDocumentation.html"))
+    ),
+    mainPanel(
+      h3('Predicted Height'),
+      h4('You entered Father Height'),
+      verbatimTextOutput("inputValue"),
+      h4('You entered Mother Height'),
+      verbatimTextOutput("inputValue2"),
+      h4('Prediction with 95% Confindence Interval'),
+      verbatimTextOutput("prediction")
+    )
+  ))
 ```
 
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-
+server.R code
+```{r, results="hide", eval=FALSE}
+library(UsingR)
+data(galton)
+lmgalton <- lm(galton$child~., data = galton)
+heightpredict <- function(height,height2) 
+  predict(lmgalton, data.frame(parent=(height+(1.08*height2))/2), interval = "predict")
+shinyServer(
+  function(input, output) {
+    output$inputValue <- renderPrint({input$height})
+    output$inputValue2 <- renderPrint({input$height2})
+    output$prediction <- renderPrint({heightpredict(input$height,input$height2)})
+  }
+)  
 ```
 

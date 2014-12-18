@@ -67,9 +67,40 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h1>Details</h1>
 <p>The app first uses the father’s height and mother’s height to calculate the “parent middle height,” which per the galton study was the average of the father’s height and 1.08x the mother’s height. After making this calculation, the app uses the predict function to calculate the predicted height.</p>
 <p>Code is below</p>
-<p>ui.R code ``{r}</p>
-<p>```</p>
-<p>You can also embed plots, for example:</p>
+<p>ui.R code</p>
+<pre class="r"><code>shinyUI(
+  pageWithSidebar(
+    # Application title
+    headerPanel(&quot;Height Prediction&quot;),
+    sidebarPanel(
+      sliderInput('height', 'Father Height (inches)',value = 60, min = 50, max = 90, step = 1,),
+      sliderInput('height2', 'Mother Height (inches)',value = 60, min = 50, max = 90, step = 1,),
+      p(&quot;Documentation:&quot;,a(&quot;Child Height Prediction Model&quot;,
+                          href=&quot;http://htmlpreview.github.io/?https://github.com/ferddavid/CreatingDataProductsProject/blob/master/FDAppDocumentation.html&quot;))
+    ),
+    mainPanel(
+      h3('Predicted Height'),
+      h4('You entered Father Height'),
+      verbatimTextOutput(&quot;inputValue&quot;),
+      h4('You entered Mother Height'),
+      verbatimTextOutput(&quot;inputValue2&quot;),
+      h4('Prediction with 95% Confindence Interval'),
+      verbatimTextOutput(&quot;prediction&quot;)
+    )
+  ))</code></pre>
+<p>server.R code</p>
+<pre class="r"><code>library(UsingR)
+data(galton)
+lmgalton &lt;- lm(galton$child~., data = galton)
+heightpredict &lt;- function(height,height2) 
+  predict(lmgalton, data.frame(parent=(height+(1.08*height2))/2), interval = &quot;predict&quot;)
+shinyServer(
+  function(input, output) {
+    output$inputValue &lt;- renderPrint({input$height})
+    output$inputValue2 &lt;- renderPrint({input$height2})
+    output$prediction &lt;- renderPrint({heightpredict(input$height,input$height2)})
+  }
+)  </code></pre>
 </div>
 
 
