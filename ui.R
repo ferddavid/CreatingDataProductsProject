@@ -14,7 +14,7 @@ shinyUI(
       verbatimTextOutput("inputValue"),
       h4('You entered Mother Height'),
       verbatimTextOutput("inputValue2"),
-      h4('Prediction with 95% Confindence Interval'),
+      h4('Prediction with 95% Confidence Interval'),
       verbatimTextOutput("prediction")
     )
   ))
