@@ -1,0 +1,25 @@
+Child Height Predictor Using Galton Data
+================================
+
+#Summary
+This data product creates a predicted child height using data from the Galton study.  By using the sliders on the left side for a parent height in inches, the app calculates the "parent middle height" which then is used to create a predicted child height in inches with a 95% confidence interval of that height.
+
+#How to Use It
+Simply utilize the sliders on the left to input the father's and mother's height, which is in inches, in order to calculate their child's height.  The fit is the predicted height.  Lwr is the lower end of the 95% confidence interval of the child's height, Upr is the higher end of the 95% confidence interval of the child's height.  
+
+#Details
+The app first uses the father's height and mother's height to calculate the "parent middle height," which per the galton study was the average of the father's height and 1.08x the mother's height.  After making this calculation, the app uses the predict function to calculate the predicted height.
+
+Code is below
+
+ui.R code
+``{r}
+
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+
+```
+
